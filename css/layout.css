@@ -317,6 +317,7 @@ section {
   border-radius: 20px;
   border-style: solid;
   border-color: #317873;
+  scroll-margin-top: 70px;
 }
 section h2 {
   text-align: center;
