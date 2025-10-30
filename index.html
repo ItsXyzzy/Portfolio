@@ -99,30 +99,38 @@ include a style for these classes you should remove the class from your html fil
                 <!-- I changed the class name to match the CSS as it was causing problems with my lists -->
                 <div class="image-gallery-grid">
                     <!-- all images here were taken by me this summer-->
-                    <figure class="an-image">
+                    <figure class="an-image" onclick="openLightbox(0)">
                     <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
                     <img src="images/koenig-resize.jpg" alt="Koenigsegg Gemera">
                         <figcaption class="image-caption"> A Koenigsegg Gemera at the Goodwood Festival of Speed in July 2025 </figcaption>
                     </figure>                   
 
-                    <figure class="an-image">
+                    <figure class="an-image" onclick="openLightbox(1)">
                     <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
                     <img src="images/fw15.jpg" alt="Williams FW15">
                         <figcaption class="image-caption"> A close up of a Williams FW15 as it drives past at the Goodwood Festival of Speed in July 2025   </figcaption>
                     </figure> 
 
-                    <figure class="an-image">
+                    <figure class="an-image" onclick="openLightbox(2)">
                     <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
                         <img src="images/cc850.jpg" alt="Koenigsegg CC850">
                         <figcaption class="image-caption"> A Koenigsegg CC850 in motion at the Goodwood Festival of Speed in July 2025 </figcaption>
                     </figure>                    
-                    <figure class="an-image">
+                    <figure class="an-image" onclick="openLightbox(3)">
                     <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
                         <img src="images/gma.JPG" alt="GMA">
                         <figcaption class="image-caption"> A Gordon Murray Automotive T.33 in motion at the Goodwood Festival of Speed in July 2025 </figcaption>
                     </figure>
                 </div>
             </div>
+            <!-- Lightbox Modal -->
+        <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+            <button class="close-btn" onclick="closeLightbox(event)">&times;</button>
+                <div class="lightbox-content">
+                    <img class="lightbox-image" id="lightbox-img" src="" alt="">
+                    <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
         </section>
         <section id="contact-form" class="contact-me container">
             <div class="container-content">
@@ -182,6 +190,50 @@ include a style for these classes you should remove the class from your html fil
                 navMenu.classList.remove('active');
                 hamburger.classList.remove('active');
             });
+        });
+    </script>
+    <script>
+        const images = [
+            {
+                src: 'images/koenig-resize.jpg',
+                caption: 'A Koenigsegg Gemera at the Goodwood Festival of Speed in July 2025'
+            },
+            {
+                src: 'images/fw15.jpg',
+                caption: 'A close up of a Williams FW15 at the Goodwood Festival of Speed in July 2025'
+            },
+            {
+                src: 'images/cc850.jpg',
+                caption: 'A cc850 at the Goodwood Festival of Speed in July 2025'
+            },
+            {
+                src: 'images/gma.jpg',
+                caption: 'A GMA at the Goodwood Festival of Speed in July 2025'
+            }
+        ];
+
+        function openLightbox(index) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            
+            img.src = images[index].src;
+            caption.textContent = images[index].caption;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox(event) {
+            const lightbox = document.getElementById('lightbox');
+            if (event.target === lightbox || event.target.classList.contains('close-btn')) {
+                lightbox.classList.remove('active');
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('lightbox').classList.remove('active');
+            }
         });
     </script>
 </body>
