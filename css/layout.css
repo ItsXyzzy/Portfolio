@@ -1,4 +1,9 @@
 /* I've studied CSS and HTML for a few years, completing the codeacademy course in both */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 /* enabling smooth scrolling for anchor links */
 html {
   scroll-behavior: smooth;
@@ -149,6 +154,101 @@ nav ul li a:hover {
   background-color: #ff5800;
   color: #1a1a1a;
 }
+/* Hamburger menu button - hidden on desktop */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 1em;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #eee;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+/* Hamburger menu button - hidden on desktop */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 1em;
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #eee;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul li {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    nav ul li:first-child {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* Hide menu items except the first one (logo) by default */
+    nav ul li:not(:first-child) {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    /* Show menu items when active */
+    nav ul.active li:not(:first-child) {
+        max-height: 100px;
+    }
+
+    nav ul li a {
+        width: 100%;
+        text-align: left;
+        padding: 1em;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    /* Hamburger animation when active */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+}
+
 /* page header styles*/
 header {
   /* I got the background image from Tumblr */

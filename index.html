@@ -33,15 +33,22 @@ include a style for these classes you should remove the class from your html fil
             </div>
         </header>
 	    <!-- You could style Main here if you wish-->
-        <nav class="page-nav"> <!-- the navigation part of the page.  Note links just jump to different parts of the page.-->
-            <ul>
-                <li><h2>Craig Dowdall</h2></li>
-                <li><a href="#about">About Me</a></li>
-                <li><a href="#work">Work Experience</a></li>
-                <li><a href="#images">Image Gallery</a></li>
-                <li><a href="#contact-form">Contact Me</a></li>
-            </ul>
-        </nav>
+        <nav class="page-nav">
+        <ul id="navMenu">
+            <li>
+                <h2>Craig Dowdall</h2>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#work">Work Experience</a></li>
+            <li><a href="#images">Image Gallery</a></li>
+            <li><a href="#contact-form">Contact Me</a></li>
+        </ul>
+    </nav>
        
     <!--Note here the use of an ID.  the link above actually links to this.  It's a good example of where an ID can be used.  Note also that the section has a class attribute.  use this for styling. -->
 
@@ -159,6 +166,24 @@ include a style for these classes you should remove the class from your html fil
          
         </footer>
     </main>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a nav link
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 
 </html>
