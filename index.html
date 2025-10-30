@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en-gb">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Portfolio of Craig Dowdall, Computer Science Student at DCU">
+    <!-- meta tag below is used for Internet Explorer and mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--This means that the browser will (probably) render the width of the page at the width of its own screen. //-->
+    <title>Craig Dowdall - Portfolio</title>
+    <!-- add your stylesheet and any other styling code, e.g. google fonts  a good link is https://fonts.google.com/-->
+	<link rel="stylesheet" href="css/layout.css" /> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- changes the colour of the address bar on supported devices to match the navbar colour-->
+    <meta name="theme-color" content="#317873" />
+</head>
+
+<!-- all the classes below will require some CSS styles to be included in your layout.css file, if you do not
+include a style for these classes you should remove the class from your html file //-->
+<body>
+
+<!--REMOVE ANY CLASS OBJECT WHICH YOU DO NOT USE TO STYLE YOUR FILE//-->
+
+<main class= "main-style">
+	 <header class="page-header">  <!-- It defines the introductory content of the page -->
+            <div class="header-content">  <!-- A div is a contaier type used to group and style a section of content-->
+                <h1>Craig Dowdall's Portfolio</h1>
+                <h2>A first year Computer Science student at DCU</h2>
+                <h3>CSC-1061</h3>
+            </div>
+        </header>
+	    <!-- You could style Main here if you wish-->
+        <nav class="page-nav"> <!-- the navigation part of the page.  Note links just jump to different parts of the page.-->
+            <ul>
+                <li><h2>Craig Dowdall</h2></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#work">Work Experience</a></li>
+                <li><a href="#images">Image Gallery</a></li>
+                <li><a href="#contact-form">Contact Me</a></li>
+            </ul>
+        </nav>
+       
+    <!--Note here the use of an ID.  the link above actually links to this.  It's a good example of where an ID can be used.  Note also that the section has a class attribute.  use this for styling. -->
+
+    <section id="about" class="about-me container">  <!--It's a container for the about me section of the website -->
+            <div class="container-content">
+                <h2>About Me</h2>
+                <div class="content">
+                    <h3>Hi, my name is Craig Dowdall.</h3>
+                    <p>I am a student at Dublin City University studying Computer Science. I have a keen interest in technology and programming, and I enjoy learning new skills in these areas.</p>
+                    <p>In my free time, I enjoy photography, with an interest in car photography. I also enjoy skiing, rugby and watching Formula 1. Some of my hobbies include:</p>
+                    <ol>
+                        <li>Coding small projects and apps</li>
+                        <li>Exploring photography</li>
+                        <li>Playing video games</li>
+                        <li>Watching movies and TV shows</li>
+                    </ol>
+                    <br>
+                    <p>My career goal is to become a proficient software developer and contribute to innovative projects in the tech industry. My favourite tech quote is:</p>
+                    <br>
+                    <blockquote>Any sufficiently advanced technology is indistinguishable from magic" - Arthur C. Clarke</blockquote>   
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="work-experience container">
+            <div class="container-content">
+                <h2>Work Experience</h2>
+                <div class="content">
+                    <!-- add your 200 word maximum work experience content here.  You can use lists of things as well as paragraphs.  Show off the HTML you know.  marks for the HTML, and how well you use it. marks deducted for poor grammar or spelling errors-->
+                     <p>I have worked in retail and customer service roles, where I developed strong communication and interpersonal skills. My experience includes working as a sales assistant in a busy supermarket. I also developed a passion for coding and development in my free time after completing a web design course in my transition year in school, after this, I completed the CodeCademy courses in HTML and CSS. I also learned a small amount of Java in order to publish two apps to the Google Play Store, With one app getting over 50,000 downloads.</p>
+                     <h3>Work Experience and Achievements:</h3>
+                     <ul>
+                        <li>Sales Assistant at SuperValu (June 2018 - August 2019)</li>
+                        <li>Completed CodeCademy HTML and CSS courses (2019)</li>
+                        <li>Learned how to use WordPress and published a tech news website (2019)</li>
+                        <li>Published two apps on Google Play Store (2019)</li>
+                        <li>Sales Assistant at Dunnes Stores (September 2021 - Present)</li>
+                     </ul>
+                </div>
+            </div>
+        </section>
+				<br><br>
+
+        <section id="images" class="image-gallery container">
+		
+            <div class="container-content">
+                <h2>Image Gallery</h2>
+                <!-- I changed the class name to match the CSS as it was causing problems with my lists -->
+                <div class="image-gallery-grid">
+                    <!-- all images here were taken by me this summer-->
+                    <figure class="an-image">
+                    <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
+                    <img src="images/koenig-resize.jpg" alt="Koenigsegg Gemera">
+                        <figcaption class="image-caption"> A Koenigsegg Gemera at the Goodwood Festival of Speed in July 2025 </figcaption>
+                    </figure>                   
+
+                    <figure class="an-image">
+                    <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
+                    <img src="images/fw15.jpg" alt="Williams FW15">
+                        <figcaption class="image-caption"> A close up of a Williams FW15 as it drives past at the Goodwood Festival of Speed in July 2025   </figcaption>
+                    </figure> 
+
+                    <figure class="an-image">
+                    <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
+                        <img src="images/cc850.jpg" alt="Koenigsegg CC850">
+                        <figcaption class="image-caption"> A Koenigsegg CC850 in motion at the Goodwood Festival of Speed in July 2025 </figcaption>
+                    </figure>                    
+                    <figure class="an-image">
+                    <!-- add image one here with 150 word maximum caption.  You may remove the caption if you wish.  Don't forget to use alt tags. -->
+                        <img src="images/gma.JPG" alt="GMA">
+                        <figcaption class="image-caption"> A Gordon Murray Automotive T.33 in motion at the Goodwood Festival of Speed in July 2025 </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+        <section id="contact-form" class="contact-me container">
+            <div class="container-content">
+                <h2>Contact Me</h2>
+                <div class="content">
+                    <form action="https://formspree.io/f/xnnonake" method="post">
+	                    <!-- Style this nicely.  Don't worry if the form doesn't work, marks here for how well you style it. -->
+                        <p>
+                            <label for="contact-name">Your Name</label>
+                            <input id="contact-name" type="text" name="contact-name" />
+                        </p>
+                        <p>
+                            <label for="contact-email">Your email address</label>
+                            <input id="contact-email" type="email" name="contact-email" /> </p>
+                        <p>
+                            <label for="contact-phone">Your phone number</label>
+                            <input id="contact-phone" type="tel" name="contact-phone" /> </p>
+                        <p>
+                            <label for="contact-message">Your message</label>
+                            <textarea id="contact-message" name="contact-message" rows="5"> </textarea>
+                        </p>
+                        <p>
+                            <input type="submit" value="send my message" /> 
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <footer id = "footer-layout">
+              <p> &copy; <a href="dcu.ie/">DCU 2025-2026</a>
+				<span class="footer-separator">&middot;</span>
+				<span class="footer-text">Craig Dowdall</span> 
+				<span class="footer-separator">&middot;</span> 
+				<span class="footer-text">This is student coursework</span> 
+				<span class="footer-separator">&middot;</span>
+				<span class="footer-text">Lecturer <a href="http://www.computing.dcu.ie/~jkernan">Jane Kernan</a></span> 
+				<span class="footer-separator">&middot;</span> 
+				<span class="footer-text"><a href="http://validator.w3.org/check?uri=referer" title="W3C HTML Validation Service" >Valid HTML</a><br/></span> 
+			</p>
+        <!-- Note that the link to the validator above will only produce results when your page is uploaded to the server, and you click on the link from the browser.-->
+         
+        </footer>
+    </main>
+</body>
+
+</html>
