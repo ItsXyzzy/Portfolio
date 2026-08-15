@@ -27,6 +27,9 @@
       preloader.addEventListener("transitionend", () => {
         preloader.style.display = "none";
       }, { once: true });
+      // start streaming the (large) hero background only once the page
+      // is actually usable, so it never competes with first paint
+      initHeroBackground();
     }
 
     if (reduceMotion) {
@@ -88,15 +91,65 @@
     })();
 
     document.addEventListener("mouseover", (e) => {
-      if (e.target.closest("a, button, .project-card, .form-control, .overlay-links a")) {
+      if (e.target.closest("a, button, .project-card, .sp-blank, .sp-submit, .overlay-links a")) {
         document.body.classList.add("cursor-hover");
+      }
+      // flip the cursor to a self-contrasting variant while over the
+      // accent-coloured contact panel, since the dot's own fill colour
+      // matches the panel background and would otherwise disappear
+      if (e.target.closest(".start-project")) {
+        document.body.classList.add("cursor-on-accent");
       }
     });
     document.addEventListener("mouseout", (e) => {
-      if (e.target.closest("a, button, .project-card, .form-control, .overlay-links a")) {
+      if (e.target.closest("a, button, .project-card, .sp-blank, .sp-submit, .overlay-links a")) {
         document.body.classList.remove("cursor-hover");
       }
+      if (e.target.closest(".start-project") && !e.relatedTarget?.closest?.(".start-project")) {
+        document.body.classList.remove("cursor-on-accent");
+      }
     });
+  }
+
+  /* ----------------------------------------------------------
+     2b. HERO BACKGROUND MEDIA — live WebGL shader, started after the
+         preloader finishes so it never competes with first paint.
+         Replaces the old static GIF: same visual family, but it
+         scales to any resolution and re-tints for light/dark mode
+         since the palette comes from CSS variables at runtime.
+     ---------------------------------------------------------- */
+  function initHeroBackground() {
+    const mount = document.getElementById("hero-bg-media");
+    if (!mount) return;
+    if (typeof window.initHeroShader === "function") {
+      window.initHeroShader(mount);
+    } else {
+      // hero-shader.js failed to load for some reason — fall back to
+      // the static CSS gradient rather than leaving an empty hero
+      mount.classList.add("fallback");
+    }
+  }
+
+  /* ----------------------------------------------------------
+     2c. NAV SCROLL STATE — toggles frosted glass backdrop
+     ---------------------------------------------------------- */
+  function initNavScroll() {
+    const glass = document.getElementById("nav-glass");
+    if (!glass) return;
+    const THRESHOLD = 40;
+    let ticking = false;
+
+    const update = () => {
+      glass.classList.toggle("scrolled", window.scrollY > THRESHOLD);
+      ticking = false;
+    };
+    window.addEventListener("scroll", () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    update();
   }
 
   /* ----------------------------------------------------------
@@ -151,12 +204,16 @@
      ---------------------------------------------------------- */
   function initMenu() {
     const btn = document.getElementById("menu-toggle");
+    const label = document.getElementById("menu-label");
     const overlay = document.getElementById("menu-overlay");
     const links = overlay.querySelectorAll("a");
 
     const open = () => {
       overlay.classList.add("open");
       document.body.classList.add("menu-open");
+      label.textContent = "Close";
+      btn.setAttribute("aria-label", "Close menu");
+      btn.setAttribute("aria-expanded", "true");
       // stagger link reveal
       links.forEach((l, i) => {
         l.style.transitionDelay = (0.15 + i * 0.09) + "s";
@@ -167,6 +224,9 @@
       overlay.classList.remove("open");
       document.body.classList.remove("menu-open");
       document.body.style.overflow = "";
+      label.textContent = "Menu";
+      btn.setAttribute("aria-label", "Open menu");
+      btn.setAttribute("aria-expanded", "false");
       // reverse stagger so links exit top-down in a tidy collapse
       links.forEach((l, i) => {
         l.style.transitionDelay = (links.length - 1 - i) * 0.05 + "s";
@@ -236,7 +296,7 @@
      ---------------------------------------------------------- */
   function initMagnetic() {
     if (reduceMotion) return;
-    const targets = document.querySelectorAll(".form-submit-btn, .lightbox-nav-btn, .see-all-btn, .lightbox-action");
+    const targets = document.querySelectorAll(".sp-submit, .lightbox-nav-btn, .see-all-btn, .lightbox-action");
     targets.forEach((el) => {
       el.addEventListener("mousemove", (e) => {
         const r = el.getBoundingClientRect();
@@ -362,25 +422,67 @@
      ---------------------------------------------------------- */
   function initForm() {
     const form = document.getElementById("portfolio-form");
-    const btn = form.querySelector(".form-submit-btn");
+    if (!form) return;
+    const btn = form.querySelector(".sp-submit");
+    const textEl = btn.querySelector(".sp-submit-text");
+    const originalLabel = textEl.textContent;
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
+
+      // Simulated success state for now. Once a real form service
+      // endpoint is set on the <form action="..."> attribute, swap this
+      // block for a real fetch(form.action, { method: "POST", body: new
+      // FormData(form) }) call and branch the label on the response.
       btn.classList.add("submitted");
-      btn.textContent = "Message sent ✓";
+      textEl.textContent = "Sent ✓";
       form.reset();
       setTimeout(() => {
         btn.classList.remove("submitted");
-        btn.textContent = "Send Message →";
+        textEl.textContent = originalLabel;
       }, 2600);
     });
+
+    // auto-grow the "anything else" textarea as the person types, so it
+    // reads like a growing line of a letter rather than a fixed box
+    const details = form.querySelector('textarea[name="details"]');
+    if (details) {
+      const grow = () => {
+        details.style.height = "auto";
+        details.style.height = details.scrollHeight + "px";
+      };
+      details.addEventListener("input", grow);
+      grow();
+    }
+  }
+
+  /* ----------------------------------------------------------
+     11b. SIDEBAR — availability copy + live Dublin time
+     ---------------------------------------------------------- */
+  function initSidebarInfo() {
+    const timeEl = document.getElementById("sp-time-dublin");
+    if (!timeEl) return;
+
+    const update = () => {
+      const now = new Date();
+      const formatted = new Intl.DateTimeFormat("en-IE", {
+        timeZone: "Europe/Dublin",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      }).format(now);
+      timeEl.textContent = formatted;
+    };
+    update();
+    setInterval(update, 30000);
   }
 
   /* ----------------------------------------------------------
      12. FOOTER YEAR
      ---------------------------------------------------------- */
   function initYear() {
-    const f = document.querySelector("footer span:first-child");
-    if (f) f.textContent = `© ${new Date().getFullYear()} Craig Dowdall`;
+    const y = document.getElementById("footer-year");
+    if (y) y.textContent = new Date().getFullYear();
   }
 
   /* ----------------------------------------------------------
@@ -390,6 +492,7 @@
     if (!reduceMotion) document.body.style.overflow = "hidden"; // lock while preloader runs
     initPreloader();
     initCursor();
+    initNavScroll();
     initBackToTop();
     initTheme();
     initMenu();
@@ -399,6 +502,7 @@
     initLightbox();
     initSmoothScroll();
     initForm();
+    initSidebarInfo();
     initYear();
   });
 })();

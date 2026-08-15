@@ -13,6 +13,7 @@
 </head>
 <body>
 
+<div class="nav-glass" id="nav-glass" aria-hidden="true"></div>
 <nav id="main-nav">
   <a href="#" class="nav-logo">Craig Dowdall</a>
 
@@ -22,7 +23,7 @@
       <svg class="moon-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
     </button>
 
-    <button class="nav-menu-btn" id="menu-toggle" aria-label="Toggle menu">
+    <button class="nav-menu-btn" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
       <div class="menu-lines">
         <span></span><span></span><span></span>
       </div>
@@ -47,6 +48,8 @@
 </div>
 
 <section class="hero">
+  <div class="hero-bg-media" id="hero-bg-media" aria-hidden="true"></div>
+  <div class="hero-bg-scrim" aria-hidden="true"></div>
   <span class="hero-ornament" aria-hidden="true">&amp;</span>
   <p class="hero-eyebrow">Developer &amp; Designer — Ireland</p>
   <h1 class="hero-headline">
@@ -98,13 +101,13 @@
       A CS student who actually <em>cares</em> about the craft.
     </h2>
     <p class="about-body">
-      I'm a computer science student in Ireland with a background in full-stack
-      development and interface design. I build across the stack — from browser to Android —
+      I'm a computer science student in Ireland who has a background in full-stack
+      development and interface design, working on projects from Android apps to tech blogs since 2016. I love UI/UX Design, from browser to Android,
       and spend way too much time on the details that most people won't notice.
     </p>
     <p class="about-body">
-      When I'm not writing code I'm shooting on a Canon 5D mk.II or Fuji X100VI,
-      watching F1 or WRC, or overthinking my Hyprland setup.
+      When I'm not writing code or designing stuff I'm shooting photos on my Canon 5D mk.II or Fuji X100VI,
+      watching F1 or WRC, or spending way too much time on my Hyprland setup.
     </p>
   </div>
   <div class="about-right reveal reveal-delay-1">
@@ -116,7 +119,7 @@
       <div class="skill-row"><span class="skill-name">Node.js</span><span class="skill-tag">Backend</span></div>
       <div class="skill-row"><span class="skill-name">Java / Android</span><span class="skill-tag">Mobile</span></div>
       <div class="skill-row"><span class="skill-name">Figma</span><span class="skill-tag">Design</span></div>
-      <div class="skill-row"><span class="skill-name">Linux / Hyprland</span><span class="skill-tag">Tools</span></div>
+      <div class="skill-row"><span class="skill-name">C/C++/Java</span><span class="skill-tag">Tools (Learning)</span></div>
     </div>
   </div>
 </section>
@@ -134,7 +137,7 @@
         <span class="project-num">01 — AI Dashboard</span>
         <h3 class="project-name">PAM AI</h3>
         <p class="project-desc">
-          A personal AI assistant dashboard with a spatial interface. Built around
+          A personal AI assistant dashboard with a spatial interface, made for a innovation competition in Uni. Built around
           a clean data-dense layout with live integrations — one of my most complete
           full-stack projects to date.
         </p>
@@ -153,8 +156,8 @@
         <span class="project-num">02 — Astro / Web</span>
         <h3 class="project-name">Pawswick Rescue</h3>
         <p class="project-desc">
-          A fictional cat rescue charity site built in Astro. Component-driven
-          architecture with a warm editorial aesthetic.
+          A fictional cat rescue charity site built in Astro to showcase working on front and backend. Component-driven
+          architecture with a warm editorial aesthetic, and a simple to use backend that anyone would be able to use to manage cats for adoption.
         </p>
         <div class="project-tags">
           <span class="tag">Astro</span>
@@ -252,49 +255,112 @@
   </div>
 </div>
 
-<section class="contact" id="contact">
-  <div class="contact-left reveal">
-    <h2 class="contact-headline">
-      Let's make<br>something<br><em>good.</em>
-    </h2>
-    <div class="contact-details">
-      <p>
-        Open to freelance work, collaborations, and interesting projects.
-        If you have something worth building, I want to hear about it.
+<section class="start-project" id="contact">
+  <div class="sp-header reveal">
+    <h2 class="sp-title">Start a project<span class="sp-title-arrow">↘</span></h2>
+  </div>
+
+  <div class="sp-body">
+    <aside class="sp-sidebar reveal reveal-delay-1">
+      <div class="sp-side-block">
+        <p class="sp-side-label">+ Availability</p>
+        <p class="sp-side-value" id="sp-availability">Booking now</p>
+      </div>
+
+      <div class="sp-side-block">
+        <p class="sp-side-label">+ Connect</p>
+        <a class="sp-side-link" href="mailto:craigdwebdev@gmail.com">craigdwebdev@gmail.com</a>
+        <a class="sp-side-link" href="https://cdow.bsky.social" target="_blank" rel="noopener">Bluesky DM</a>
+      </div>
+
+      <div class="sp-side-block">
+        <p class="sp-side-label">+ See my work</p>
+        <a class="sp-side-link" href="https://github.com/ItsXyzzy" target="_blank" rel="noopener">GitHub</a>
+        <a class="sp-side-link" href="https://dribbble.com/craig-dowdall56" target="_blank" rel="noopener">Dribbble</a>
+        <a class="sp-side-link" href="https://cdow.bsky.social" target="_blank" rel="noopener">Bluesky</a>
+      </div>
+
+      <div class="sp-side-block">
+        <p class="sp-side-label">+ Based in</p>
+        <div class="sp-side-row"><span>Dublin, Ireland</span><span class="sp-side-time" id="sp-time-dublin">—:—</span></div>
+      </div>
+    </aside>
+
+    <form class="sp-form reveal reveal-delay-2" id="portfolio-form" method="POST" action="https://formspree.io/f/craig.dowdall56@gmail.com">
+      <!--
+        FORM SERVICE HOOK:
+        1. Sign up for Formspree, Web3Forms, or Getform (all have free tiers).
+        2. Replace action="#" above with the endpoint they give you,
+           e.g. action="https://formspree.io/f/yourFormId"
+        3. Every field below already has a `name` attribute so the
+           service can read submissions with no further markup changes.
+        4. The JS submit handler in script.js currently intercepts the
+           submit for the animated "sent" state — once you wire a real
+           endpoint, tell me and I'll switch it to a real fetch() call
+           instead of the simulated one.
+      -->
+      <p class="sp-line">Hi, Craig.</p>
+
+      <p class="sp-line">
+        My name is
+        <input class="sp-blank sp-blank-md" type="text" name="name" placeholder="your name" required autocomplete="name">
+        and I'm reaching out because I'm looking
+        <select class="sp-blank sp-blank-select" name="intent" required>
+          <option value="" disabled selected>to…</option>
+          <option value="design and build">to design and build</option>
+          <option value="redesign">to redesign</option>
+          <option value="get help with">to get help with</option>
+          <option value="just chat about">to just chat about</option>
+        </select>
       </p>
-    </div>
+
+      <p class="sp-line">
+        a
+        <select class="sp-blank sp-blank-select" name="project_type" required>
+          <option value="" disabled selected>project type…</option>
+          <option value="portfolio site">portfolio site</option>
+          <option value="landing page">landing page</option>
+          <option value="full web app">full web app</option>
+          <option value="mobile app">mobile app</option>
+          <option value="something else">something else</option>
+        </select>
+        for
+        <input class="sp-blank sp-blank-lg" type="text" name="project_for" placeholder="your company or idea" required>
+      </p>
+
+      <p class="sp-line">
+        The best way to reach me back is
+        <select class="sp-blank sp-blank-select" name="contact_method">
+          <option value="email" selected>email</option>
+          <option value="call">a call</option>
+          <option value="either">either works</option>
+        </select>
+        at
+        <input class="sp-blank sp-blank-lg" type="email" name="email" placeholder="you@email.com" required autocomplete="email">
+      </p>
+
+      <p class="sp-line">
+        Also,
+        <textarea class="sp-blank sp-blank-full" name="details" rows="1" placeholder="anything else worth knowing — links, references, must-haves…"></textarea>
+      </p>
+
+      <p class="sp-line sp-sign">
+        Cheers,<br>
+        <input class="sp-blank sp-blank-md sp-blank-sign" type="text" name="signoff_name" placeholder="your name again" required>
+      </p>
+
+      <button type="submit" class="sp-submit">
+        <span class="sp-submit-text">Send</span>
+        <span class="sp-submit-arrow">→</span>
+      </button>
+    </form>
   </div>
 
-  <form class="contact-form reveal reveal-delay-1" action="#" method="POST" id="portfolio-form">
-    <div class="form-group">
-      <input type="text" id="form-name" class="form-control" placeholder=" " required autocomplete="name">
-      <label for="form-name" class="form-label">Name</label>
-    </div>
-    <div class="form-group">
-      <input type="email" id="form-email" class="form-control" placeholder=" " required autocomplete="email">
-      <label for="form-email" class="form-label">Email Address</label>
-    </div>
-    <div class="form-group">
-      <textarea id="form-message" class="form-control" placeholder=" " required></textarea>
-      <label for="form-message" class="form-label">Project Details</label>
-    </div>
-    <button type="submit" class="form-submit-btn">
-      Send Message →
-    </button>
-  </form>
-
-  <div class="contact-links-wrapper reveal">
-    <a href="https://github.com/ItsXyzzy" target="_blank" class="contact-link">GitHub</a>
-    <a href="https://twitter.com/craig_dowdall" target="_blank" class="contact-link">Twitter</a>
-    <a href="https://cdow.bsky.social" target="_blank" class="contact-link">Bluesky</a>
-    <a href="https://dribbble.com/craig-dowdall56" target="_blank" class="contact-link">Dribbble</a>
-  </div>
+  <footer class="sp-footer">
+    <span>© <span id="footer-year">2026</span> Craig Dowdall</span>
+    <span>Built by hand — Ireland</span>
+  </footer>
 </section>
-
-<footer>
-  <span>© 2026 Craig Dowdall</span>
-  <span>Built by hand — Ireland</span>
-</footer>
 
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
   <svg class="btt-progress" viewBox="0 0 56 56" aria-hidden="true">
@@ -355,6 +421,7 @@
     }
   };
     </script>
+    <script src="hero-shader.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
