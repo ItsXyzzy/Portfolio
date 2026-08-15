@@ -426,39 +426,8 @@ body.cursor-hidden .cursor-ring { opacity: 0; }
     linear-gradient(180deg, var(--bg) 0%, rgba(18, 28, 25, 0) 26%, rgba(18, 28, 25, 0) 60%, var(--bg) 96%),
     linear-gradient(90deg, var(--bg) 0%, rgba(18, 28, 25, 0.25) 30%, rgba(18, 28, 25, 0.25) 70%, var(--bg) 100%);
 }
-/* faint blueprint grid, faded toward the bottom, sits above the media */
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 76px 76px;
-  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 16%, #000 0%, transparent 74%);
-  mask-image: radial-gradient(ellipse 85% 70% at 50% 16%, #000 0%, transparent 74%);
-}
 .hero-headline,
 .hero-bottom { position: relative; z-index: 1; }
-/* large ghost ampersand — editorial backdrop */
-.hero-ornament {
-  position: absolute;
-  top: 40%;
-  right: clamp(8px, 3vw, 48px);
-  transform: translateY(-50%);
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(15rem, 36vw, 34rem);
-  line-height: 1;
-  color: var(--ink);
-  opacity: 0.05;
-  z-index: 0;
-  pointer-events: none;
-  user-select: none;
-}
 .hero-eyebrow {
   position: absolute;
   top: calc(var(--nav-h) + 40px);
@@ -1117,6 +1086,7 @@ section { padding: clamp(70px, 12vh, 130px) clamp(20px, 5vw, 60px); }
   justify-content: space-between;
   border-bottom: 1px solid rgba(255,255,255,0.25);
   padding-bottom: clamp(18px, 3vh, 32px);
+  will-change: transform;
 }
 .sp-title-arrow {
   font-size: 0.55em;
@@ -1276,9 +1246,12 @@ textarea.sp-blank-full {
   margin-top: clamp(40px, 6vh, 70px);
   border-top: 1px solid rgba(255,255,255,0.18);
   padding: 22px clamp(20px, 5vw, 60px);
+  /* both lines sit on the left now — the back-to-top button is fixed
+     at bottom-right and was sitting directly over the second line */
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
   font-family: var(--font-brand);
   font-size: 0.72rem;
   letter-spacing: 0.14em;

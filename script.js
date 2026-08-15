@@ -289,6 +289,36 @@
         card.style.transform = "";
       });
     });
+
+    // contact panel depth — same lagging-parallax language as the hero
+    // headline, but scoped to the section's own scroll progress so the
+    // title only drifts while the panel is actually in view rather than
+    // reacting to the page's total scroll position.
+    // Only .sp-title is animated here (not .sp-sidebar/.sp-header,
+    // which carry the .reveal entrance-fade class — an inline transform
+    // from this loop would win specificity over that CSS animation and
+    // silently cancel the slide-up-on-first-view effect).
+    const startProject = document.querySelector(".start-project");
+    const spTitle = document.querySelector(".sp-title");
+    if (startProject && spTitle) {
+      let ticking = false;
+      const updateContactDepth = () => {
+        ticking = false;
+        const rect = startProject.getBoundingClientRect();
+        const vh = window.innerHeight;
+        // 0 when the panel's top just enters the viewport, 1 once it's
+        // scrolled fully past — clamp so nothing moves outside that range
+        const progress = Math.min(Math.max((vh - rect.top) / (vh + rect.height), 0), 1);
+        spTitle.style.transform = `translateY(${(progress - 0.5) * -46}px)`;
+      };
+      window.addEventListener("scroll", () => {
+        if (!ticking) {
+          requestAnimationFrame(updateContactDepth);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateContactDepth();
+    }
   }
 
   /* ----------------------------------------------------------
