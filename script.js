@@ -246,7 +246,7 @@
      6. REVEAL ON SCROLL
      ---------------------------------------------------------- */
   function initReveal() {
-    const els = document.querySelectorAll(".reveal");
+    const els = document.querySelectorAll(".reveal:not(.sp-footer)");
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((en) => {
@@ -259,6 +259,27 @@
       { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
     );
     els.forEach((el) => io.observe(el));
+
+    // The footer is the last element in the page, so it permanently
+    // lives in the bottom 8% of the viewport that the -8% rootMargin
+    // above crops out — the general observer therefore never fires
+    // for it and it would stay invisible forever. It gets its own
+    // observer with a neutral margin so the entrance reveal triggers.
+    const footer = document.querySelector(".sp-footer.reveal");
+    if (footer) {
+      const footerIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              footer.classList.add("in");
+              footerIO.disconnect();
+            }
+          });
+        },
+        { threshold: 0.25, rootMargin: "0px" }
+      );
+      footerIO.observe(footer);
+    }
   }
 
   /* ----------------------------------------------------------
@@ -508,6 +529,25 @@
   }
 
   /* ----------------------------------------------------------
+     11c. SIDE PROJECTS — lightweight expand-in-place accordion,
+          deliberately not the full lightbox used by the main grid
+     ---------------------------------------------------------- */
+  function initSideProjects() {
+    const cards = document.querySelectorAll(".side-card");
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+      const head = card.querySelector(".side-card-head");
+      if (!head) return;
+      head.addEventListener("click", () => {
+        const isOpen = card.getAttribute("data-open") === "true";
+        card.setAttribute("data-open", isOpen ? "false" : "true");
+        head.setAttribute("aria-expanded", isOpen ? "false" : "true");
+      });
+    });
+  }
+
+  /* ----------------------------------------------------------
      12. FOOTER YEAR
      ---------------------------------------------------------- */
   function initYear() {
@@ -533,6 +573,7 @@
     initSmoothScroll();
     initForm();
     initSidebarInfo();
+    initSideProjects();
     initYear();
   });
 })();

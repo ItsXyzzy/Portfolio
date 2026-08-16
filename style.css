@@ -732,6 +732,20 @@ section { padding: clamp(70px, 12vh, 130px) clamp(20px, 5vw, 60px); }
 }
 .see-all-btn:hover::after { transform: translateX(0); }
 
+/* 70/30 split: main project grid on the left, side projects column
+   on the right. Collapses to a stacked single column below 1080px so
+   the side column doesn't get uncomfortably narrow on tablet/mobile. */
+.projects-split {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: clamp(24px, 3vw, 40px);
+  align-items: start;
+  padding: 0 clamp(20px, 5vw, 60px) clamp(50px, 8vh, 80px);
+}
+@media (max-width: 1080px) {
+  .projects-split { grid-template-columns: 1fr; }
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1045,6 +1059,151 @@ section { padding: clamp(70px, 12vh, 130px) clamp(20px, 5vw, 60px); }
 
 
 /* ============================================================
+   Side Projects — deliberately smaller/quieter than the main grid,
+   now living as a narrow column to the right of it (70/30 split)
+   rather than a full-width section underneath. No ghost numbers,
+   no lightbox, no accent colour treatment — a plain expand-in-place
+   accordion so smaller builds get shown without competing visually
+   with the flagship work.
+   ============================================================ */
+#side-projects {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(20px, 2.4vw, 32px);
+}
+@media (max-width: 1080px) {
+  #side-projects {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+    padding-top: clamp(30px, 5vh, 48px);
+  }
+}
+.side-header {
+  margin-bottom: clamp(20px, 3vh, 28px);
+}
+.side-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.side-subtitle {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.side-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.side-card-image {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--line);
+}
+
+.side-card {
+  background: var(--bg);
+}
+.side-card-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-ui);
+  color: var(--ink);
+}
+.side-card-headtext {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.side-card-name {
+  font-weight: 500;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+.side-card-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+}
+.side-card-toggle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  transition: transform 0.35s var(--ease-out), background 0.3s, color 0.3s, border-color 0.3s;
+}
+.side-card-head:hover .side-card-toggle {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.side-card[data-open="true"] .side-card-toggle {
+  transform: rotate(45deg);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.side-card-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.4s var(--ease-out);
+}
+.side-card-body > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.side-card[data-open="true"] .side-card-body {
+  grid-template-rows: 1fr;
+}
+.side-card-body p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  padding: 0 20px 18px;
+}
+.side-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 20px 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  transition: gap 0.3s var(--ease-out);
+}
+.side-card-link:hover { gap: 10px; }
+
+
+/* ============================================================
    Start a Project — full-bleed contact panel
    ============================================================ */
 .start-project {
@@ -1351,5 +1510,333 @@ textarea.sp-blank-full {
   .hero-bottom { flex-direction: column; align-items: flex-start; }
 }
 @media (max-width: 560px) {
-  #menu-label { display: none; }
+#menu-label { display: none; }
 }
+
+/* ============================================================
+   Start a Project — animated living background + refined details
+   Contact header, sidebar, mad-libs form, footer micro-interactions
+   ============================================================ */
+.start-project::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+              transparent 0%, rgba(255,255,255,0) 12%,
+              rgba(255,255,255,0.55) 50%,
+              rgba(255,255,255,0) 88%, transparent 100%);
+  background-size: 240% 100%;
+  background-position: 240% 0;
+  animation: spSheen 7s linear infinite;
+  opacity: 0.5;
+}
+@keyframes spSheen {
+  from { background-position: 240% 0; }
+  to   { background-position: -240% 0; }
+}
+
+/* drifting light orbs behind the panel content */
+.sp-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.sp-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  will-change: transform;
+}
+.sp-orb-1 {
+  width: 54vmax; height: 54vmax;
+  top: -18vmax; right: -14vmax;
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.55), rgba(255,255,255,0) 62%);
+  animation: spOrb1 26s var(--ease-soft) infinite alternate;
+}
+.sp-orb-2 {
+  width: 46vmax; height: 46vmax;
+  bottom: -20vmax; left: -14vmax;
+  background: radial-gradient(circle at 50% 50%, rgba(8, 32, 26, 0.5), rgba(8, 32, 26, 0) 64%);
+  animation: spOrb2 30s var(--ease-soft) infinite alternate;
+}
+.sp-orb-3 {
+  width: 30vmax; height: 30vmax;
+  bottom: -12vmax; right: 8vw;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3), rgba(255,255,255,0) 62%);
+  animation: spOrb3 24s ease-in-out infinite alternate;
+}
+@keyframes spOrb1 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-7vmax, 5vmax, 0) scale(1.14); }
+}
+@keyframes spOrb2 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(6vmax, -6vmax, 0) scale(1.18); }
+}
+@keyframes spOrb3 {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.4; }
+  to   { transform: translate3d(-4vmax, -3vmax, 0) scale(1.1); opacity: 0.6; }
+}
+
+/* animated film grain on top of the flat accent panel */
+.sp-grain {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+  opacity: 0.28;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  animation: spGrain 1.15s steps(2) infinite;
+}
+@keyframes spGrain {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(-1.6%, 1.6%); }
+  100% { transform: translate(1.6%, -1.6%); }
+}
+
+/* eyebrow above the big title */
+.sp-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-brand);
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 18px;
+}
+.sp-eyebrow::before {
+  content: "";
+  width: 34px; height: 1.5px;
+  background: #fff;
+  animation: dash 2.4s var(--ease-out) infinite;
+}
+
+/* masked rise for the title that only plays when the header enters view */
+.sp-title-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.12em;
+}
+.sp-title-fill {
+  display: block;
+  transform: translateY(118%);
+  transition: transform 1.05s var(--ease-out) 0.2s;
+}
+.sp-header.in .sp-title-fill { transform: translateY(0); }
+
+/* gentle arrow bob (subtle so it doesn't fight the parallax) */
+.sp-title-arrow {
+  animation: spArrowBob 5s var(--ease-soft) infinite 2s;
+}
+@keyframes spArrowBob {
+  0%, 86%, 100% { transform: translate(0, 2px) rotate(0deg); }
+  93%           { transform: translate(5px, 7px) rotate(5deg); }
+}
+
+/* availability pulse */
+.sp-side-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sp-dot {
+  width: 9px; height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #9dffb0;
+  box-shadow: 0 0 0 0 rgba(157, 255, 176, 0.55);
+  animation: spPulse 2.4s ease-out infinite;
+}
+@keyframes spPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(157, 255, 176, 0.55); }
+  70%  { box-shadow: 0 0 0 12px rgba(157, 255, 176, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(157, 255, 176, 0); }
+}
+
+/* sidebar link underline + stagger */
+.sp-side-link {
+  position: relative;
+  width: max-content;
+}
+.sp-side-link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 2px;
+  width: 100%; height: 1.5px;
+  background: #fff;
+  opacity: 0.85;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-out);
+}
+.sp-side-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.sp-sidebar .sp-side-block:nth-of-type(1) { transition-delay: 0.1s; }
+.sp-sidebar .sp-side-block:nth-of-type(2) { transition-delay: 0.18s; }
+.sp-sidebar .sp-side-block:nth-of-type(3) { transition-delay: 0.26s; }
+.sp-sidebar .sp-side-block:nth-of-type(4) { transition-delay: 0.34s; }
+
+/* form — staggered reveal per line + focus warmth */
+.sp-form .sp-line:nth-of-type(1) { transition-delay: 0.05s; }
+.sp-form .sp-line:nth-of-type(2) { transition-delay: 0.12s; }
+.sp-form .sp-line:nth-of-type(3) { transition-delay: 0.19s; }
+.sp-form .sp-line:nth-of-type(4) { transition-delay: 0.26s; }
+.sp-form .sp-line:nth-of-type(5) { transition-delay: 0.33s; }
+.sp-form .sp-line:nth-of-type(6) { transition-delay: 0.4s; }
+.sp-form .sp-submit { transition-delay: 0.5s; }
+
+.sp-blank { caret-color: #fff; }
+.sp-blank:focus { box-shadow: 0 12px 24px -18px rgba(0,0,0,0.35); }
+select.sp-blank { transition: background 0.3s, border-color 0.3s, box-shadow 0.3s; }
+select.sp-blank:focus { box-shadow: none; }
+.sp-blank::selection { background: rgba(255,255,255,0.38); color: #fff; }
+
+/* sheen sweep across the send button */
+.sp-submit {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.sp-submit::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -130%;
+  width: 60%; height: 100%;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: skewX(-24deg);
+  animation: spSweep 3.8s ease-in-out infinite;
+}
+.sp-submit.submitted::before { opacity: 0; animation: none; }
+@keyframes spSweep {
+  0%        { left: -130%; }
+  60%, 100% { left: 160%; }
+}
+
+/* footer — living top rule + hover micro-interactions */
+.sp-footer::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 0;
+  width: 100%; height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4) 30%,
+              rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.4) 70%, transparent);
+  background-size: 240% 100%;
+  background-position: 240% 0;
+  animation: spSheen 6s linear infinite;
+  opacity: 0.5;
+}
+.sp-footer span {
+  cursor: default;
+  transition: color 0.35s var(--ease-out), transform 0.35s var(--ease-out),
+              letter-spacing 0.35s var(--ease-out);
+}
+.sp-footer span:hover {
+  color: #fff;
+  transform: translateY(-1px);
+  letter-spacing: 0.18em;
+}
+
+/* ============================================================
+   Side Projects — lifted cards, breathing accent + reveal polish
+   ============================================================ */
+#side-projects { position: relative; z-index: 1; }
+#side-projects::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  pointer-events: none;
+  opacity: 0;
+  animation: sideBreathe 7s ease-in-out 1.4s infinite;
+}
+@media (max-width: 1080px) {
+  #side-projects::before {
+    left: 0; right: 0; top: 0; bottom: auto;
+    width: auto; height: 2px;
+  }
+}
+@keyframes sideBreathe {
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 0.5; }
+}
+
+.side-count {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 12px;
+  font-family: var(--font-brand);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  padding: 4px 10px;
+  color: var(--accent);
+  transition: border-color 0.35s, color 0.35s, transform 0.35s var(--ease-out);
+}
+.side-header:hover .side-count {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.side-card {
+  position: relative;
+  transition: background 0.35s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+.side-card:hover {
+  background: var(--surface);
+  box-shadow: 0 22px 46px -28px rgba(20, 36, 33, 0.4);
+}
+.side-card-head {
+  position: relative;
+  z-index: 1;
+  transition: padding-left 0.4s var(--ease-out);
+}
+.side-card-head:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.side-card:hover .side-card-head { padding-left: 24px; }
+
+.side-num {
+  font-family: var(--font-brand);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  transition: transform 0.35s var(--ease-out), letter-spacing 0.35s;
+}
+.side-card:hover .side-num {
+  transform: translateX(2px);
+  letter-spacing: 0.26em;
+}
+
+.side-card-image {
+  transition: transform 0.8s var(--ease-out);
+}
+.side-card[data-open="true"] .side-card-body:hover .side-card-image {
+  transform: scale(1.05);
+}
+
+/* smooth fade + lift when an accordion row opens */
+.side-card-body > div > * {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+.side-card[data-open="true"] .side-card-body > div > * { opacity: 1; transform: none; }
+.side-card[data-open="true"] .side-card-body > div > *:nth-child(2) { transition-delay: 0.07s; }
+.side-card[data-open="true"] .side-card-body > div > *:nth-child(3) { transition-delay: 0.14s; }
